@@ -39,8 +39,7 @@ def generate_sql_from_question(question, table_schema):
         function_call={"name": "run_sql_query"},
         messages=[
             {"role": "system", "content": "Eres un asistente financiero que responde preguntas generando SQL para una base de datos PostgreSQL. Usa las tablas pl_ledger y budget."},
-            {"role": "user", "content": f"La estructura de las tablas es:
-{table_schema}"},
+            {"role": "user", "content": "La estructura de las tablas es:\n" + table_schema},
             {"role": "user", "content": question}
         ]
     )
@@ -63,22 +62,22 @@ def execute_sql_query(sql_query):
 if question:
     with st.spinner("Generando respuesta..."):
         schema = '''
-        Tabla pl_ledger:
-        - acctnumber (texto)
-        - end_of_month (fecha)
-        - location (entero)
-        - total_balance (decimal)
-        - subsidiary (entero)
-        - isrevenues (0 o 1)
-        - iscogs (0 o 1)
+Tabla pl_ledger:
+- acctnumber (texto)
+- end_of_month (fecha)
+- location (entero)
+- total_balance (decimal)
+- subsidiary (entero)
+- isrevenues (0 o 1)
+- iscogs (0 o 1)
 
-        Tabla budget:
-        - end_of_month (fecha)
-        - location (entero)
-        - total_budget (decimal)
-        - isrevenues (0 o 1)
-        - iscogs (0 o 1)
-        '''
+Tabla budget:
+- end_of_month (fecha)
+- location (entero)
+- total_budget (decimal)
+- isrevenues (0 o 1)
+- iscogs (0 o 1)
+'''
         try:
             result = generate_sql_from_question(question, schema)
             query = eval(result)["query"]
