@@ -1,6 +1,0 @@
-
-streamlit
-openai
-psycopg2-binary
-pandas
-python-dotenv
